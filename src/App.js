@@ -1,4 +1,4 @@
-import wineData from "./Wine-Data.json";
+import wineData from "./WineData.json";
 import FlavonoidsTable from "./FlavonoidsTable.tsx";
 import GammaTable from './GammaTable.tsx';
 import { useState ,useEffect } from 'react';
@@ -12,12 +12,10 @@ function App() {
  
   useEffect(() => {
     setdata(wineData);
-    const sum=getStats(data,"Flavanoids");
-    console.log('stats',sum)
-    const check=getGammaStats(data);
-    console.log('checkgamma',check);
-    setFlavonoidsData(sum);
-    setGammaData(check);
+    const stats=getStats(data,"Flavanoids");
+    const gamma=getGammaStats(data);
+    setFlavonoidsData(stats);
+    setGammaData(gamma);
   },[data]);
 
  
