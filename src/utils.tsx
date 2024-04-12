@@ -60,3 +60,37 @@ function getMedian(values: number[]): number {
         return sortedValues[middleIndex];
     }
 }
+
+export function getGammaStats(data: any[]): { [alcohol: string]: { mean: number, mode: number, median: number } } {
+    // Object to store the sums and counts for each value of "Alcohol"
+    const alcoholStats: { [alcohol: string]: { sum: number, count: number, values: number[] } } = {};
+
+    // Calculate gamma value for each data point and group by alcohol value
+    for (let i = 0; i < data.length; i++) {
+        const alcoholValue = data[i].Alcohol.toString();
+        const gamma = (data[i].Hue * data[i].Ash) / data[i].Magnesium;
+
+        // Initialize sum, count, and values array for the current Alcohol value if not already present
+        if (!alcoholStats[alcoholValue]) {
+            alcoholStats[alcoholValue] = { sum: 0, count: 0, values: [] };
+        }
+
+        alcoholStats[alcoholValue].sum += gamma;
+        alcoholStats[alcoholValue].count++;
+        alcoholStats[alcoholValue].values.push(gamma);
+    }
+
+    // Calculate the mean, mode, and median for each value of "Alcohol" based on gamma values
+    const result: { [alcohol: string]: { mean: number, mode: number, median: number } } = {};
+    for (const alcoholValue in alcoholStats) {
+        if (alcoholStats.hasOwnProperty(alcoholValue)) {
+            const stats = alcoholStats[alcoholValue];
+            const mean = stats.sum / stats.count;
+            const mode = getMode(stats.values);
+            const median = getMedian(stats.values);
+            result[alcoholValue] = { mean, mode, median };
+        }
+    }
+
+    return result;
+}

@@ -1,40 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from '@mantine/core';
 
-function FlavonoidsTable({ flavonoidsData }) {
-  // State to track loading status
-  const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-   
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); 
-  }, []);
-  if (!flavonoidsData) {
-    // If flavonoidsData is undefined or null, return null or display an error message
-    return <p>No data available</p>;
-  }
 
-   // Convert flavonoidsData object to an array
-   const flavonoidsArray = Object.keys(flavonoidsData).map((key) => flavonoidsData[key]);
+function GammaTable({gammaData}){
+    const [isLoading, setIsLoading] = useState(true);
 
+    useEffect(() => {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000); 
+    }, []);
 
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
+    if (!gammaData) {
+      return <p>No data available</p>;
+    }
+       // Convert flavonoidsData object to an array
+   const gammaArray = Object.keys(gammaData).map((key) => gammaData[key]);
 
-  
+   if (isLoading) {
+     return <p>Loading...</p>;
+   }
 
-  const means = flavonoidsArray.map((element) => element.mean);
-  const modes = flavonoidsArray.map((element) => element.mode);
-  const median = flavonoidsArray.map((element) => element.median);
+   const means = gammaArray.map((element) => element.mean.toFixed(3));
+   const modes = gammaArray.map((element) => element.mode.toFixed(3));
+   const median = gammaArray.map((element) => element.median.toFixed(3));
 
-  return (
+   return (
     <Table
     style={{
       borderCollapse: 'collapse',
       border: '1px solid black',
-      width: '100%', 
+      width: '40%', 
+      marginTop:'30px',
+      marginLeft:'400px'
+     
     }}
   >
     <Table.Thead>
@@ -46,27 +45,24 @@ function FlavonoidsTable({ flavonoidsData }) {
       </Table.Tr>
     </Table.Thead>
     <Table.Tbody>
-      
       <Table.Tr>
-        <Table.Td style={{ border: '1px solid black', padding: '8px' }}>Flavonoids Mean</Table.Td>
+        <Table.Td style={{ border: '1px solid black', padding: '8px' ,fontWeight:'bold'}}>Gamma Mean</Table.Td>
         {means.map((mean, index) => (
           <Table.Td key={index} style={{ border: '1px solid black', padding: '8px' }}>
             {mean}
           </Table.Td>
         ))}
       </Table.Tr>
-      
       <Table.Tr>
-        <Table.Td style={{ border: '1px solid black', padding: '8px' }}>Flavonoids Median</Table.Td>
+        <Table.Td style={{ border: '1px solid black', padding: '8px' ,fontWeight:'bold'}}>Gamma Median</Table.Td>
         {median.map((median, index) => (
           <Table.Td key={index} style={{ border: '1px solid black', padding: '8px' }}>
             {median}
           </Table.Td>
         ))}
       </Table.Tr>
-     
       <Table.Tr>
-        <Table.Td style={{ border: '1px solid black', padding: '8px' }}>Flavonoids Mode</Table.Td>
+        <Table.Td style={{ border: '1px solid black', padding: '8px',fontWeight:'bold' }}>Gamma Mode</Table.Td>
         {modes.map((mode, index) => (
           <Table.Td key={index} style={{ border: '1px solid black', padding: '8px' }}>
             {mode}
@@ -77,5 +73,4 @@ function FlavonoidsTable({ flavonoidsData }) {
   </Table>
   );
 }
-
-export default FlavonoidsTable;
+export default GammaTable;
